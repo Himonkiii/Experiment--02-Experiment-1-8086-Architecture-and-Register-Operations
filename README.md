@@ -1,5 +1,8 @@
 # Experiment--02-Experiment-1-8086-Architecture-and-Register-Operations
- 
+ DATE:11/17/2026
+NAME: Himank Bhandari
+ROLL NUMBER: RA2511030010355
+DEPARTMENT: NWC
 ## Aim
 
 To study the architecture of the 8086 microprocessor and write assembly
