@@ -147,6 +147,10 @@ AX. `MOV RESULT, BX` stores the contents of BX in the 16-bit memory
 variable `RESULT`. The `MOV` instruction does not modify the source
 operand.
 
+## Screenshot of the results 
+<img width="2878" height="1799" alt="Screenshot 2026-11-17 154317" src="https://github.com/user-attachments/assets/cdc162ef-9533-4059-af75-f3747a031e14" />
+
+
 ------------------------------------------------------------------------
 
 ## Part (c): Exchange Two 16-bit Memory Locations Using Registers
@@ -165,7 +169,25 @@ Write an 8086 assembly language program to exchange the contents of two
 5.  Stop the program.
 
 ### Assembly Program
+.MODEL SMALL
+.STACK 100H
 
+.DATA
+    VALUE1 DW 1111H
+    VALUE2 DW 2222H
+
+.CODE
+
+    MOV AX, @DATA
+    MOV DS, AX
+
+    MOV AX, VALUE1       ; Load VALUE1 into AX
+    MOV BX, VALUE2       ; Load VALUE2 into BX
+
+    MOV VALUE1, BX       ; Store VALUE2 into VALUE1
+    MOV VALUE2, AX       ; Store VALUE1 into VALUE2
+
+    HLT
  
 
 ### Expected Result
@@ -176,7 +198,7 @@ Write an 8086 assembly language program to exchange the contents of two
   VALUE2                       `2222H`           `1111H`
 
 ### Explanation
-
+The 8086 does not allow memory-to-memory MOV (for example, MOV VALUE1, VALUE2 is invalid). So both values are first loaded into registers AX and BX, then stored back crosswise: BX goes to VALUE1 and AX goes to VALUE2. This swaps the two values without losing either one.
   
 ------------------------------------------------------------------------
 
@@ -192,6 +214,7 @@ Write an 8086 assembly language program to exchange the contents of two
     results.
 ## Screenshot of the results 
 
+<img width="2875" height="1599" alt="Screenshot 2026-11-17 154921" src="https://github.com/user-attachments/assets/3e71888b-d4c4-4a8a-ae0a-2371882a2fb4" />
 
 
 ## Result
@@ -211,6 +234,15 @@ storage and the exchange of two 16-bit memory values.
 6.  Does the `MOV` instruction change the source operand?
 7.  Why are registers used when exchanging two memory values?
 8.  What is the purpose of the DS segment register?
+Viva Voce Answers
 
+Function of the BIU: It fetches instructions, generates the 20-bit physical address, and reads/writes data from memory and I/O devices. It also holds the segment registers, the IP, and the instruction queue.
+Role of the EU: It decodes and executes instructions supplied by the BIU, using the ALU, general-purpose registers, and the flag register.
+Why a 6-byte instruction queue: It lets instruction fetch and execution overlap (pipelining), so the EU does not sit idle waiting for the next instruction.
+Maximum physical memory: 1 MB (2^20 bytes), because the address bus is 20 bits wide.
+Register vs memory variable: A register is a small storage location inside the CPU and is very fast. A memory variable lives in RAM and is slower, because accessing it needs a bus cycle.
+Does MOV change the source? No. It only copies data to the destination.
+Why use registers for the exchange: The 8086 has no direct memory-to-memory transfer, so a register must hold at least one value temporarily.
+Purpose of DS: It holds the base address of the data segment, which is used with an offset to access variables in the data area.
  
 ` 
